@@ -47,7 +47,7 @@ def list():
 
 @app.route('/view/<string:name>')
 def view(name):
-    last_version = executor.get_last_version(name)
+    last_version = executor.get_version(name)
     version = last_version
 
     if 'version' in request.args:

@@ -61,6 +61,10 @@
     padding: 10px;
 }
 
+.nboutput-area img {
+    max-width: 100%;
+}
+
 li {
     list-style: none;
 }
@@ -74,9 +78,7 @@ li {
     padding: 0;
 }
 
-.kernel-list li {
-    padding: 10px;
-}
+.kernel-list li {display
 
 div.output_area pre {
     color: white !important;
@@ -137,6 +139,15 @@ div.output_area pre {
 
                 <div class="nboutput-area" id="nboutput">
                     Kernel output
+                    <ul>
+                        {% for file in output_files %}
+                        <li><a href="/notebooks/{{file}}" target="_blank" download>/notebooks/{{file}}</a></li>
+                        {% endfor %}
+                    </ul>
+
+                    {% for img in output_images %}
+                        <img src="/notebooks/{{img}}">
+                    {% endfor %}
                 </div>
             </div>
 

@@ -73,6 +73,21 @@ def get_all_versions(name):
         versions.append({'version': ver, 'state': state})
     return versions
 
+def get_kernel_outputs(name, version):
+    output_files = []
+    output_images = []
+
+    nb_basepath = os.path.join(data_dir, name, version)
+    for root, dirs, files in os.walk(nb_basepath):
+        print(dirs)
+        for f in files:
+            fname = os.path.join(root, f).replace(data_dir+"/", '')
+            if '.png' in fname or '.jpg' in fname:
+                output_images.append(fname)
+            else:
+                output_files.append(fname)
+    return output_files, output_images
+
 def nb_exec(fname, name):
     ver = make_version(name)
     dirpath = os.path.join(data_dir, name, ver)

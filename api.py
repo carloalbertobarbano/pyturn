@@ -1,13 +1,13 @@
 import os
 import uuid
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, url_for
 from utils import ensure_dir
 from config import data_dir
 from multiprocessing import Process
 
 import executor
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=data_dir)
 
 def clean_exec(fname, name):
     executor.nb_exec(fname, name)
@@ -44,7 +44,6 @@ def pull():
 def list():
     return 'list'
 
-
 @app.route('/view/<string:name>')
 def view(name):
     last_version = executor.get_version(name)
@@ -68,11 +67,13 @@ def view(name):
     except:
         pass
 
+    output_files, output_images = executor.get_kernel_outputs(name, version)
     return render_template(
         'notebook.html', title=name, 
         notebook=notebook, version=version, 
         versions=executor.get_all_versions(name),
-        kernels=executor.list_kernels()
+        kernels=executor.list_kernels(),
+        output_files=output_files, output_images=output_images
     )
 
 if __name__ == '__main__':

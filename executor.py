@@ -40,6 +40,10 @@ def get_version(name):
             return version['version']
     return None
 
+def make_version(name):
+    version = get_last_version(name)
+    return str(int(version or "1") + 1)
+
 def get_all_versions(name):
     logger.info(f'Ensuring {data_dir}')
     ensure_dir(data_dir)

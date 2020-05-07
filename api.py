@@ -27,7 +27,7 @@ def push():
 
     print(file.filename)
 
-    version = executor.get_version(name)
+    version = executor.make_version(name)
 
     p = Process(target=clean_exec, args=(tmp_fname, name))
     p.start()

@@ -10,6 +10,7 @@ import nbconvert
 from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 from nbconvert.exporters import HTMLExporter
 from pathlib import Path
+from config import data_dir
 
 def ensure_dir(dirname):
     dirname = Path(dirname)
@@ -23,10 +24,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--nb', type=str, help='notebook path')
 parser.add_argument('--name', type=str, help='notebook name')
 args = parser.parse_args()
-
-
-data_dir = '/home/carloalberto/pyturn/notebooks'
-
 
 def nb_exec(path):
     dirpath = os.path.dirname(path)

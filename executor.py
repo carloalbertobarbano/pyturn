@@ -7,20 +7,15 @@ import coloredlogs
 import logging
 
 import nbconvert
-from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
+from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError, ClearOutputPreprocessor
 from nbconvert.exporters import HTMLExporter
-from pathlib import Path
 from config import data_dir
-
-def ensure_dir(dirname):
-    dirname = Path(dirname)
-    if not dirname.is_dir():
-        dirname.mkdir(parents=True, exist_ok=False)
+from utils import ensure_dir
 
 logger = logging.getLogger('executor.py')
 coloredlogs.install(level='DEBUG', logger=logger)
 
-def nb_exec(fname, name):
+def get_version(name):
     logger.info(f'Ensuring {data_dir}')
     ensure_dir(data_dir)
     
@@ -37,8 +32,11 @@ def nb_exec(fname, name):
         logger.info('Last version')
         ver = str(dirs[-1] + 1)
     logger.info(f'Current version: {ver}')
+    return ver
 
-    dirpath = os.path.join(nb_basepath, ver)
+def nb_exec(fname, name):
+    ver = get_version(name)
+    dirpath = os.path.join(data_dir, name, ver)
     execpath = os.path.join(dirpath, 'src')
     src_nb = os.path.join(execpath, os.path.basename(fname))
     ensure_dir(dirpath)
@@ -49,6 +47,9 @@ def nb_exec(fname, name):
 
     with open(src_nb) as f:
         nb = nbformat.read(f, as_version=4)
+
+    co = ClearOutputPreprocessor()
+    nb, _ = co.preprocess(nb, {})
 
     ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
     try:
@@ -63,7 +64,6 @@ def nb_exec(fname, name):
         nbformat.write(nb, f)    
     
     exp = HTMLExporter()
-    #exp.template_file = 'basic'
     body, res = exp.from_notebook_node(nb)
 
     with open(os.path.join(dirpath, 'output.html'), 'w', encoding='utf-8') as f:

@@ -38,6 +38,7 @@ def nb_exec(path):
         print(e)
         with open(os.path.join(dirpath, 'error.log'), 'w') as f:
             f.write(str(e))
+        print('Stack trace saved')
         
     with open(os.path.join(dirpath, 'output.ipynb'), 'w', encoding='utf-8') as f:
         nbformat.write(nb, f)    
@@ -58,11 +59,12 @@ if __name__ == '__main__':
 
     dirs = os.listdir(nb_basepath)
     dirs = list(filter(lambda d: os.path.isdir(os.path.join(nb_basepath, d)), dirs))
-    dirs = sorted(dirs)
+    dirs = sorted(list(map(lambda d: int(d), dirs)))
 
     ver = "1"
     if len(dirs) > 0:
-        ver = str(int(dirs[-1]) + 1)
+        logger.info('Last version')
+        ver = str(dirs[-1] + 1)
     logger.info(f'Current version: {ver}')
 
     fname = args.nb

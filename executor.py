@@ -20,11 +20,6 @@ def ensure_dir(dirname):
 logger = logging.getLogger('executor.py')
 coloredlogs.install(level='DEBUG', logger=logger)
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--nb', type=str, help='notebook path')
-parser.add_argument('--name', type=str, help='notebook name')
-args = parser.parse_args()
-
 def nb_exec(fname, name):
     logger.info(f'Ensuring {data_dir}')
     ensure_dir(data_dir)
@@ -75,6 +70,10 @@ def nb_exec(fname, name):
         f.write(body)
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--nb', type=str, help='notebook path')
+    parser.add_argument('--name', type=str, help='notebook name')
+    args = parser.parse_args()
     fname = args.nb
     name = args.name
 

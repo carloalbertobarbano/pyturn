@@ -34,7 +34,7 @@ def nb_exec(path):
     with open(path) as f:
         nb = nbformat.read(f, as_version=4)
 
-    ep = ExecutePreprocessor(timeout=6000, kernel_name='python3')
+    ep = ExecutePreprocessor(timeout=-1, kernel_name='python3')
     try:
         ep.preprocess(nb, {'metadata': {'path': dirpath}})
     except CellExecutionError as e:

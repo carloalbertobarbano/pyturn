@@ -15,6 +15,24 @@ from utils import ensure_dir
 logger = logging.getLogger('executor.py')
 coloredlogs.install(level='DEBUG', logger=logger)
 
+def get_last_version(name):
+    logger.info(f'Ensuring {data_dir}')
+    ensure_dir(data_dir)
+    
+    nb_basepath = os.path.join(data_dir, name)
+    logger.info(f'Ensuring {nb_basepath}')
+    ensure_dir(nb_basepath)
+
+    dirs = os.listdir(nb_basepath)
+    dirs = list(filter(lambda d: os.path.isdir(os.path.join(nb_basepath, d)), dirs))
+    dirs = sorted(list(map(lambda d: int(d), dirs)))
+
+    ver = None
+    if len(dirs) > 0:
+        logger.info('Last version')
+        ver = str(dirs[-1])
+    return ver
+
 def get_version(name):
     logger.info(f'Ensuring {data_dir}')
     ensure_dir(data_dir)
@@ -34,11 +52,35 @@ def get_version(name):
     logger.info(f'Current version: {ver}')
     return ver
 
+def get_all_versions(name):
+    logger.info(f'Ensuring {data_dir}')
+    ensure_dir(data_dir)
+    
+    nb_basepath = os.path.join(data_dir, name)
+    logger.info(f'Ensuring {nb_basepath}')
+    ensure_dir(nb_basepath)
+
+    dirs = os.listdir(nb_basepath)
+    dirs = list(filter(lambda d: os.path.isdir(os.path.join(nb_basepath, d)), dirs))
+    dirs = sorted(list(map(lambda d: int(d), dirs)))
+
+    versions = []
+
+    for ver in dirs:
+        ver = str(ver)
+        state = 'success'
+        if os.path.isfile(os.path.join(nb_basepath, ver, 'error.log')):
+            state = 'error'
+        elif not os.path.isfile(os.path.join(nb_basepath, ver, 'output.ipynb')):
+            state = 'running'
+        versions.append({'version': ver, 'state': state})
+    return versions
+
 def nb_exec(fname, name):
     ver = get_version(name)
     dirpath = os.path.join(data_dir, name, ver)
     execpath = os.path.join(dirpath, 'src')
-    src_nb = os.path.join(execpath, os.path.basename(fname))
+    src_nb = os.path.join(execpath, 'src.ipynb')
     ensure_dir(dirpath)
     ensure_dir(execpath)
     

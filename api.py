@@ -1,6 +1,6 @@
 import os
 import uuid
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from utils import ensure_dir
 from config import data_dir
 from multiprocessing import Process
@@ -16,7 +16,6 @@ def clean_exec(fname, name):
 
 @app.route('/push', methods=['GET', 'POST', 'PUT'])
 def push():
-    print('ad')
     file = request.files['file']
     name = request.args['name']
     
@@ -37,11 +36,43 @@ def push():
 
 @app.route('/pull')
 def pull():
+    # TODO
+
     return 'pull'
 
 @app.route('/list')
 def list():
     return 'list'
+
+
+@app.route('/view/<string:name>')
+def view(name):
+    last_version = executor.get_last_version(name)
+    version = last_version
+
+    if 'version' in request.args:
+        version = request.args['version']
+    
+    src = os.path.join(data_dir, name, version, 'src', 'src.ipynb')
+    path = os.path.join(data_dir, name, version, 'output.html')
+    
+    try:
+        with open(src) as f:
+            notebook = f.read()
+    except:
+        notebook = ''
+
+    try:
+        with open(path) as f:
+            notebook = f.read()
+    except:
+        pass
+
+    return render_template(
+        'notebook.html', title=name, 
+        notebook=notebook, version=version, 
+        versions=executor.get_all_versions(name)
+    )
 
 if __name__ == '__main__':
     app.run()

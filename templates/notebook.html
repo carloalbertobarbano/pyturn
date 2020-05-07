@@ -31,12 +31,15 @@
     margin-right: 10px;
 }
 
+div.output_area pre {
+    color: white !important;
+}
+
 </style>
 <html>
     <head>
         <title>{{title}}</title>
-        <link rel="stylesheet" href="/bootstrap-4.4.1-dist/css/boostrap.min.css">
-        <script src="/bootstrap-4.4.1-dist/js/boostrap.min.js"></script>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/notebookviewer.css') }}">
     </head>
 
     <body>
@@ -68,7 +71,7 @@
             </ul>
         </div>
 
-        <div class='col-md-8' id='notebook'>
+        <div id='pt-notebook-container'>
             {{notebook|safe}}
         </div>
     </body>

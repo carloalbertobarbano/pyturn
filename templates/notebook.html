@@ -31,6 +31,37 @@
     margin-right: 10px;
 }
 
+.notebook-info {
+    border-left: 1px solid rgb(222, 223, 224);
+    margin-left: 10px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: fixed;
+}
+
+.notebook-info ul {
+    list-style: none;
+    padding: 0
+}
+
+.notebook-info ul li {
+    padding: 10px;
+    padding-left: 50px
+}
+
+.notebok-info a  {
+    color: rgb(0, 138, 188) !important
+}
+
+.nboutput-area {
+    min-height: 200px;
+    border: solid;
+    border-width: 1px;
+    border-color: rgb(222, 223, 224);
+    padding: 10px;
+}
+
+
 div.output_area pre {
     color: white !important;
 }
@@ -45,7 +76,6 @@ div.output_area pre {
     <body>
         <div class='header'>
             <h1>{{title}}</h1>
-            <a onclick="$('#version-select').toggle()" href="#">Version {{version}}</a>
         </div>
 
         <div id='version-select'>
@@ -70,9 +100,35 @@ div.output_area pre {
                 {% endfor %}
             </ul>
         </div>
+        
+        <!--div class='container'-->
+            <div class='col-lg-2'>
+                <div class='nav-menu'>
+                    <ul>
+                        Notebooks
+                    </ul>
+                </div>
 
-        <div id='pt-notebook-container'>
-            {{notebook|safe}}
-        </div>
+            </div>
+
+            <div class='col-lg-8'>
+                <div id='pt-notebook-container'>
+                    {{notebook|safe}}
+                </div>
+
+                <div class="nboutput-area" id="nboutput">
+                    Kernel output
+                </div>
+            </div>
+
+            <div class='col-lg-2'>
+                <div class='notebook-info'>
+                    <ul>
+                        <li><a onclick="$('#version-select').toggle()" href="#">Version {{version}} of {{ versions|length }}</a></li>
+                        <li><a href="#nboutput">Output</a></li>
+                    </ul>
+                </div>
+            </div>
+        <!--/div-->
     </body>
 </html>

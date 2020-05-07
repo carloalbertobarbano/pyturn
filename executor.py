@@ -29,28 +29,16 @@ def get_last_version(name):
 
     ver = None
     if len(dirs) > 0:
-        logger.info('Last version')
         ver = str(dirs[-1])
+        logger.info(f'Last version {ver}')
     return ver
 
 def get_version(name):
-    logger.info(f'Ensuring {data_dir}')
-    ensure_dir(data_dir)
-    
-    nb_basepath = os.path.join(data_dir, name)
-    logger.info(f'Ensuring {nb_basepath}')
-    ensure_dir(nb_basepath)
-
-    dirs = os.listdir(nb_basepath)
-    dirs = list(filter(lambda d: os.path.isdir(os.path.join(nb_basepath, d)), dirs))
-    dirs = sorted(list(map(lambda d: int(d), dirs)))
-
-    ver = "1"
-    if len(dirs) > 0:
-        logger.info('Last version')
-        ver = str(dirs[-1] + 1)
-    logger.info(f'Current version: {ver}')
-    return ver
+    versions = get_all_versions(name)
+    for version in versions[::-1]:
+        if version['state'] != 'running':
+            return version['version']
+    return None
 
 def get_all_versions(name):
     logger.info(f'Ensuring {data_dir}')

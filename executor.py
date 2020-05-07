@@ -42,7 +42,7 @@ def get_version(name):
 
 def make_version(name):
     version = get_last_version(name)
-    return str(int(version or "1") + 1)
+    return str(int(version or "0") + 1)
 
 def get_all_versions(name):
     logger.info(f'Ensuring {data_dir}')
@@ -69,7 +69,7 @@ def get_all_versions(name):
     return versions
 
 def nb_exec(fname, name):
-    ver = get_version(name)
+    ver = make_version(name)
     dirpath = os.path.join(data_dir, name, ver)
     execpath = os.path.join(dirpath, 'src')
     src_nb = os.path.join(execpath, 'src.ipynb')

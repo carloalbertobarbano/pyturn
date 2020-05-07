@@ -15,6 +15,11 @@ from utils import ensure_dir
 logger = logging.getLogger('executor.py')
 coloredlogs.install(level='DEBUG', logger=logger)
 
+def list_kernels():
+    exclude = ['tmp', 'style.min.css.map', 'custom.css']
+    dirs = os.listdir(data_dir)
+    return list(filter(lambda d: d not in exclude, dirs))
+
 def get_last_version(name):
     logger.info(f'Ensuring {data_dir}')
     ensure_dir(data_dir)

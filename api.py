@@ -71,7 +71,8 @@ def view(name):
     return render_template(
         'notebook.html', title=name, 
         notebook=notebook, version=version, 
-        versions=executor.get_all_versions(name)
+        versions=executor.get_all_versions(name),
+        kernels=executor.list_kernels()
     )
 
 if __name__ == '__main__':

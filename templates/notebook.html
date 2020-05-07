@@ -61,6 +61,22 @@
     padding: 10px;
 }
 
+li {
+    list-style: none;
+}
+
+.nav-menu {
+    padding-top: 50px;
+    padding-left: 50px;
+}
+
+.kernel-list {
+    padding: 0;
+}
+
+.kernel-list li {
+    padding: 10px;
+}
 
 div.output_area pre {
     color: white !important;
@@ -104,8 +120,11 @@ div.output_area pre {
         <!--div class='container'-->
             <div class='col-lg-2'>
                 <div class='nav-menu'>
-                    <ul>
-                        Notebooks
+                    Notebooks
+                    <ul class='kernel-list'>
+                        {% for kernel in kernels %}
+                        <li><a href="/view/{{kernel}}">{{kernel}}</a></li>
+                        {% endfor %}
                     </ul>
                 </div>
 

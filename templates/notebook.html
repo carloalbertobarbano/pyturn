@@ -94,7 +94,7 @@ body {
 
     <body>
         <div class='header'>
-            <h1>{{title}}</h1>
+            <h1 id='top-anchor'>{{title}}</h1>
         </div>
 
         <div id='version-select' class='modal'>
@@ -156,6 +156,7 @@ body {
             <div class='col-lg-2'>
                 <div class='notebook-info'>
                     <ul id='notebook-nav'>
+                        <li><a href='#top-anchor'>Notebook</a></li>
                         <li><a href="#version-select" rel="modal:open">Version {{version}} of {{ versions|length }}</a></li>
                     </ul>
                 </div>

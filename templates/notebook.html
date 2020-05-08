@@ -94,6 +94,8 @@ body {
     <head>
         <title>{{title}}</title>
         <!--link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/notebookviewer.css') }}"-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     </head>
 
     <body>
@@ -158,12 +160,23 @@ body {
 
             <div class='col-lg-2'>
                 <div class='notebook-info'>
-                    <ul>
+                    <ul id='notebook-nav'>
                         <li><a onclick="$('#version-select').toggle()" href="#">Version {{version}} of {{ versions|length }}</a></li>
-                        <li><a href="#nboutput">Output</a></li>
                     </ul>
                 </div>
             </div>
+
+            <script>
+                $('.anchor-link').each(function(index) {
+                    console.log($(this).attr('href'))
+                    href = $(this).attr('href')
+                    $('#notebook-nav').append('<li><a href="'+href+'">'+href.replace('#', '')+'</a></li>')
+                });
+
+                
+                $('#notebook-nav').append('<li><a href="#nboutput">Output</a></li>');
+
+            </script>
         <!--/div-->
     </body>
 

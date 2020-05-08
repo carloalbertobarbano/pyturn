@@ -5,19 +5,12 @@
 }
 
 #version-select {
-    position: fixed;
-    z-index: 10;
-    width: 500px;
-    max-height: 40%;
-    height: auto;
     padding: 20px;
     box-shadow: 0px 0px 10px 10px #aaaaaa;
     background: white;
-    left: 50%;
-    top: 20%;
-    margin-left: -250px;
-    display: none;
-    overflow: scroll;
+    overflow-y: scroll;
+    position: relative;
+    margin-left: 0;
 }
 
 #version-select ul {
@@ -95,7 +88,8 @@ body {
         <title>{{title}}</title>
         <!--link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='styles/notebookviewer.css') }}"-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     </head>
 
     <body>
@@ -103,7 +97,7 @@ body {
             <h1>{{title}}</h1>
         </div>
 
-        <div id='version-select'>
+        <div id='version-select' class='modal'>
             <ul>
                 {% for version in versions %}
                 <li>
@@ -124,6 +118,7 @@ body {
                     <a href="?version={{version['version']}}">Version {{version['version']}} {{version['state']}}</a></li>
                 {% endfor %}
             </ul>
+            <a href='#' rel='modal:close'>Close</a>
         </div>
         
         <!--div class='container'-->
@@ -161,7 +156,7 @@ body {
             <div class='col-lg-2'>
                 <div class='notebook-info'>
                     <ul id='notebook-nav'>
-                        <li><a onclick="$('#version-select').toggle()" href="#">Version {{version}} of {{ versions|length }}</a></li>
+                        <li><a href="#version-select" rel="modal:open">Version {{version}} of {{ versions|length }}</a></li>
                     </ul>
                 </div>
             </div>

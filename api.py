@@ -52,6 +52,8 @@ def view(name):
     if 'version' in request.args:
         version = request.args['version']
     
+    print(data_dir, name, version)
+    
     src = os.path.join(data_dir, name, version, 'src', 'src.ipynb')
     path = os.path.join(data_dir, name, version, 'output.html')
     

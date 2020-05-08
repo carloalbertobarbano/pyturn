@@ -99,7 +99,7 @@ body {
 
         <div id='version-select' class='modal'>
             <ul>
-                {% for version in versions %}
+                {% for version in versions|reverse %}
                 <li>
                     {% if version["state"] == 'success' %}
                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle" class="svg-inline--fa fa-check-circle fa-w-16 sc-kxyuPp sc-fCVImB eWYXFR" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
